@@ -1,0 +1,133 @@
+﻿$Green: #459e0d;
+
+body {
+    background-color: #eee;
+    color: #000000;
+    margin: 0px auto;
+    padding: 20px;
+
+    font: {
+        family: Segoe UI, Arial, Helvetica, sans-serif;
+        size: .8em;
+    }
+
+    max-width: 1100px;
+
+    header {
+        margin: -15px 0 15px 0;
+        color: $Green;
+
+        > div {
+            font-size: 300%;
+
+            b {
+                font-weight: 900;
+            }
+
+            span {
+                font-weight: 100;
+            }
+        }
+
+        > nav {
+            margin-top: 5px;
+            padding: 5px;
+        }
+    }
+
+    footer {
+        margin-top: 15px;
+        padding: 5px 10px;
+        font-weight: normal !important;
+        font-size: 75%;
+        text-align: right;
+
+        ul {
+            margin: 0;
+            padding: 0;
+
+            li {
+                display: inline;
+                list-style-type: none;
+                border-left: 1px solid #ccc;
+                margin: 0;
+                padding: 0 1ex;
+
+                &:nth-child(1) {
+                    border-left: none;
+                }
+            }
+        }
+    }
+}
+
+// HTML5 compatibility for older browsers
+header, nav, footer, article, aside {
+    display: block;
+}
+
+article {
+    margin-bottom: 1em;
+    padding: 10px;
+    overflow: hidden;
+
+    header {
+        padding: 5px 10px;
+        margin: -11px -11px 10px -11px;
+
+        .id {
+            font: {
+                size: 75%;
+                weight: normal;
+            }
+
+            float: right;
+            color: rgba(0, 0, 0, .25);
+        }
+
+        .id:before {
+            content: "ID# ";
+        }
+    }
+
+    aside {
+        margin-top: 1em;
+        padding-top: .5ex;
+        border-top: solid 1px #ccc;
+
+        li {
+            display: inline;
+            font-style: italic;
+        }
+    }
+}
+
+ul.taglist {
+    margin: 0;
+    padding: 0;
+
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.paging {
+    text-align: right;
+}
+
+.ui-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.textbox {
+    border: solid 1px #ccc;
+    padding: .25ex;
+    box-sizing: border-box;
+
+    font: {
+        family: Segoe UI, Arial, Helvetica, sans-serif;
+    }
+}
