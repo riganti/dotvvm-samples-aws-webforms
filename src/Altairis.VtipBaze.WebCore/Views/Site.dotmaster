@@ -1,0 +1,49 @@
+﻿@viewModel Altairis.VtipBaze.WebCore.ViewModels.SiteViewModel, Altairis.VtipBaze.WebCore
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{{value: PageTitle}}</title>
+    <meta charset="utf-8" />
+
+    <link rel="alternate" type="application/atom+xml" href="/feed.xml" />
+    <meta name="author" content="Michal A. Valášek (www.rider.cz), Altairis (www.altairis.cz)" />
+    <meta name="description" content="Ad-free database of jokes" />
+        
+    <dot:RequiredResource Name="site" />    
+    <dot:RequiredResource Name="site-css" />
+</head>
+<body>
+    <header>
+        <div>
+            <b>VTIP</b>BÁZE<span>.CZ</span>
+        </div>
+        <nav class="ui-widget-header ui-corner-all">
+            <webforms:HybridRouteLink Text="Newest" RouteName="HomePage" Param-PageIndex="1" />
+            <webforms:HybridRouteLink Text="Tags" RouteName="TagList" />
+            <webforms:HybridRouteLink Text="Add your own" RouteName="NewJoke" />
+            <dot:AuthenticatedView>
+                <AuthenticatedTemplate>
+                    <webforms:HybridRouteLink Text="Admin" RouteName="AdminHomePage" Param-PageIndex="1" />
+                    <dot:LinkButton Text="Sign out" data-confirmprompt="Do you really want to sign out?"
+                                    Click="{command: SignOut()}"
+                                    Validation.Enabled="false" />
+                </AuthenticatedTemplate>
+            </dot:AuthenticatedView>
+        </nav>
+    </header>
+    <dot:ContentPlaceHolder ID="MainCPH" />
+    <footer class="ui-widget-header ui-corner-all">
+        <ul>
+            <li>Copyright © <a href="http://www.rider.cz/?utm_medium=footerlink&amp;utm_source=vtipbaze">Michal A. Valášek</a> - <a href="http://www.altairis.cz/?utm_medium=footerlink&amp;utm_source=vtipbaze">Altairis</a>, 2011-2014</li>
+            <li>Kindly provided to serve as a sample for <a href="https://www.dotvvm.com/modernize">Migration of Web Forms apps to .NET 7 using DotVVM</a></li>
+            <li>
+                <a href="/feed.xml">RSS/ATOM</a>
+            </li>
+            <li>
+                <a href="/admin">&pi;</a>
+            </li>
+        </ul>
+    </footer>
+</body>
+</html>
