@@ -2,7 +2,18 @@
 @masterPage Views/Site.dotmaster
 
 <dot:Content ContentPlaceHolderID="MainCPH">
-
-
+    <article>
+        <header>
+            List of categories
+        </header>
+        <dot:Repeater DataSource="{value: Tags}" WrapperTagName="ul" class="taglist">
+            <li>
+                <span class="ui-icon ui-icon-tag"></span>
+                <webforms:HybridRouteLink RouteName="TagSearch"
+                                          Param-TagName="{value: TagName}"
+                                          Text="{value: TagName}" />
+                {{value: $"({JokesCount})"}}
+            </li>
+        </dot:Repeater>
+    </article>
 </dot:Content>
-

@@ -224,6 +224,7 @@
     </Compile>
     <Compile Include="Handlers\FeedHandler.cs" />
     <Compile Include="Handlers\TagListHandler.cs" />
+    <Compile Include="Model\TagListModel.cs" />
     <Compile Include="Pages\HomePage.aspx.cs">
       <DependentUpon>HomePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
