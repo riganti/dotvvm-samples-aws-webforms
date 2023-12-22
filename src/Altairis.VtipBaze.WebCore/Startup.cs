@@ -1,19 +1,95 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using DotVVM.Framework.Routing;
-using Microsoft.Owin;
-using Owin;
-using System.Web.Hosting;
+using Altairis.VtipBaze.Data;
+using Altairis.VtipBaze.WebCore.Handlers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using System.Net.Mail;
 
-[assembly: OwinStartup(typeof(Altairis.VtipBaze.WebCore.Startup))]
 namespace Altairis.VtipBaze.WebCore
 {
     public class Startup
     {
-        public void Configuration(IAppBuilder app)
+
+        public IConfiguration Configuration { get; private set; }
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
+            Configuration = configuration;
+        }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDataProtection();
+            services.AddAuthorization();
+            services.AddWebEncoders();
+            services.AddAuthentication();
+
+            services.AddScoped<FeedPresenter>();
+
+            services.AddDbContext<VtipBazeContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DB"));
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<VtipBazeContext>();
+            services.ConfigureApplicationCookie(cookie =>
+            {
+                cookie.LoginPath = new PathString("/login");
+            });
+
+            services.AddTransient<SmtpClient>(_ =>
+            {
+                var client = new SmtpClient();
+                Configuration.GetSection("Smtp").Bind(client);
+                return client;
+            });
+
+            services.AddDotVVM<DotvvmStartup>(); 
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/error");
+                app.UseHttpsRedirection();
+                app.UseHsts();
+            }
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             // use DotVVM
-            var applicationPhysicalPath = HostingEnvironment.ApplicationPhysicalPath;
-            var dotvvmConfiguration = app.UseDotVVM<DotvvmStartup>(applicationPhysicalPath);
+            var dotvvmConfiguration = app.UseDotVVM<DotvvmStartup>(env.ContentRootPath);
             dotvvmConfiguration.AssertConfigurationIsValid();
+
+            // use static files
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(env.WebRootPath)
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                // register ASP.NET Core MVC and other endpoint routing middlewares
+            });
         }
     }
 }

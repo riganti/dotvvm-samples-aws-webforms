@@ -1,5 +1,7 @@
-﻿using DotVVM.Framework.ViewModel;
-using System.Web.Security;
+﻿using System.Threading.Tasks;
+using DotVVM.Framework.Hosting;
+using DotVVM.Framework.ViewModel;
+using Microsoft.AspNetCore.Identity;
 
 namespace Altairis.VtipBaze.WebCore.ViewModels
 {
@@ -7,9 +9,9 @@ namespace Altairis.VtipBaze.WebCore.ViewModels
     {
         public abstract string PageTitle { get; }
 
-        public void SignOut()
+        public async Task SignOut()
         {
-            FormsAuthentication.SignOut();
+            await Context.GetAuthentication().SignOutAsync(IdentityConstants.ApplicationScheme);
             Context.RedirectToLocalUrl("/");
         }
     }
