@@ -186,6 +186,8 @@ Unfortunately, the converter is not able to perform all the changes. Some fixes 
     > ```
     > By requesting the resources `site` and `site-css` int the page, DotVVM will also include all their dependencies and make sure all `<script>` and `<link>` elements are rendered in the correct order.
 
+1. Save the page and try to build the project. There should be no errors.
+
 ## Adding a test page to make sure the master page works
 
 Now all our edits are finished. Let's start with adding the first page to make sure the master page works.
