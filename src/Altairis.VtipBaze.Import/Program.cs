@@ -4,18 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Security;
 using Altairis.VtipBaze.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Altairis.VtipBaze.Import
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             using (var dc = new VtipBazeContext())
             {
-                dc.Database.CreateIfNotExists();
+                dc.Database.EnsureCreated();
 
                 // seed data (all jokes were kindly provided by ChatGPT)
                 if (!dc.Tags.Any())
@@ -82,12 +83,25 @@ namespace Altairis.VtipBaze.Import
                     Console.WriteLine("The database already exists, skipped.");
                 }
 
-                var adminUsers = Membership.FindUsersByName("admin");
-                if (adminUsers.Count == 0)
+                var services = new ServiceCollection();
+                services.AddDbContext<VtipBazeContext>();
+                services.AddIdentityCore<IdentityUser>()
+                    .AddEntityFrameworkStores<VtipBazeContext>();
+                var provider = services.BuildServiceProvider();
+
+                var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
+
+                var adminUser = await userManager.FindByNameAsync("admin");
+                if (adminUser == null)
                 {
-                    var user = Membership.CreateUser("admin", "admin123", "test@mail.local");
-                    user.IsApproved = true;
-                    Membership.UpdateUser(user);
+                    var user = new IdentityUser()
+                    {
+                        UserName = "admin",
+                        Email = "test@mail.local",
+                        SecurityStamp = Guid.NewGuid().ToString()
+                    };
+                    await userManager.CreateAsync(user);
+                    await userManager.AddPasswordAsync(user, "Admin123+");
 
                     Console.WriteLine("Created admin user.");
                 }

@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21126.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altairis.VtipBaze.Data", "Altairis.VtipBaze.Data\Altairis.VtipBaze.Data.csproj", "{F0531A4A-E4E5-4D2E-A0E6-05E5682BB576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altairis.VtipBaze.Data", "Altairis.VtipBaze.Data\Altairis.VtipBaze.Data.csproj", "{F0531A4A-E4E5-4D2E-A0E6-05E5682BB576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altairis.VtipBaze.Import", "Altairis.VtipBaze.Import\Altairis.VtipBaze.Import.csproj", "{340BD98A-D344-4E75-93C9-9E35E15BAEBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altairis.VtipBaze.Import", "Altairis.VtipBaze.Import\Altairis.VtipBaze.Import.csproj", "{340BD98A-D344-4E75-93C9-9E35E15BAEBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altairis.VtipBaze.WebCore", "Altairis.VtipBaze.WebCore\Altairis.VtipBaze.WebCore.csproj", "{7328CCBC-A4C0-4E74-A03E-A950E5023B47}"
 EndProject
