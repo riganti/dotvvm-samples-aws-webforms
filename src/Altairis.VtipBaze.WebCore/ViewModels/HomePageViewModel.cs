@@ -5,6 +5,7 @@ using DotVVM.Framework.ViewModel;
 using DotVVM.Framework.Controls;
 using Altairis.VtipBaze.WebCore.Model;
 using Altairis.VtipBaze.Data;
+using DotVVM.Framework.Hosting;
 
 namespace Altairis.VtipBaze.WebCore.ViewModels
 {
@@ -33,6 +34,16 @@ namespace Altairis.VtipBaze.WebCore.ViewModels
         public HomePageViewModel(VtipBazeContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public override async Task Init()
+        {
+            if (Context.Route.RouteName == "AdminHomePage")
+            {
+                await Context.Authorize();
+            }
+
+            await base.Init();
         }
 
         public override Task PreRender()
@@ -117,7 +128,7 @@ namespace Altairis.VtipBaze.WebCore.ViewModels
             if (string.IsNullOrWhiteSpace(tagText)) return;
 
             var tag = dbContext.Tags.SingleOrDefault(x => x.TagName.Equals(tagText));
-            if (tag == null) tag = dbContext.Tags.Add(new Tag { TagName = tagText });
+            if (tag == null) tag = dbContext.Tags.Add(new Tag { TagName = tagText }).Entity;
 
             var joke = dbContext.Jokes.Single(x => x.JokeId == jokeId);
             joke.Tags.Add(tag);

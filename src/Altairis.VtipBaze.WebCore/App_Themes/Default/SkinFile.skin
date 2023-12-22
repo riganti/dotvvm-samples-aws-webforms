@@ -1,2 +1,0 @@
-﻿<asp:TextBox runat="server" CssClass="textbox" />
-<asp:Button runat="server" CssClass="button" />

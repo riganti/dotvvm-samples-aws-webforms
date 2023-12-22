@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using DotVVM.Framework.ViewModel;
 using DotVVM.Framework.Hosting;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 using Altairis.VtipBaze.Data;
-using System.Web.Security;
 
 namespace Altairis.VtipBaze.WebCore.ViewModels
 {
     public class NewJokeViewModel : SiteViewModel
     {
         private readonly VtipBazeContext dbContext;
+        private readonly SmtpClient smtpClient;
 
         public override string PageTitle => "Add your joke";
 
@@ -22,9 +23,10 @@ namespace Altairis.VtipBaze.WebCore.ViewModels
         [Required(ErrorMessage = "Empty text is not very funny")]
         public string JokeText { get; set; }
 
-        public NewJokeViewModel(VtipBazeContext dbContext)
+        public NewJokeViewModel(VtipBazeContext dbContext, SmtpClient smtpClient)
         {
             this.dbContext = dbContext;
+            this.smtpClient = smtpClient;
         }
 
         public void Submit()
@@ -39,7 +41,7 @@ namespace Altairis.VtipBaze.WebCore.ViewModels
             if (Context.HttpContext.User.Identity.IsAuthenticated)
             {
                 // Published directly
-                Context.RedirectToRouteHybrid("SingleJoke", new { JokeId = joke.JokeId });
+                Context.RedirectToRouteHybrid("SingleJoke", new { JokeId = joke.Entity.JokeId });
             }
             else
             {
@@ -47,18 +49,15 @@ namespace Altairis.VtipBaze.WebCore.ViewModels
                 IsSubmitted = true;
 
                 // Send message to users
-                var recipients = from u in Membership.GetAllUsers().Cast<MembershipUser>()
-                                    where u.IsApproved
-                                    select u.Email;
-                var client = new System.Net.Mail.SmtpClient();
+                var recipients = dbContext.Users.Select(u => u.Email);
                 var message = new System.Net.Mail.MailMessage()
                 {
                     Subject = "New joke to approve",
-                    Body = joke.Text + "\r\n\r\nApprove or reject at " + Context.GetApplicationBaseUri() + "admin",
+                    Body = joke.Entity.Text + "\r\n\r\nApprove or reject at " + Context.GetApplicationBaseUri() + "admin",
                     IsBodyHtml = false
                 };
                 message.To.Add(string.Join(",", recipients));
-                client.Send(message);
+                smtpClient.Send(message);
             }
         }
     }
