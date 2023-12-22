@@ -1,5 +1,7 @@
 using Altairis.VtipBaze.Data;
+using Altairis.VtipBaze.WebCore.Handlers;
 using DotVVM.Framework.Configuration;
+using DotVVM.Framework.Controls;
 using DotVVM.Framework.ResourceManagement;
 using DotVVM.Framework.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +18,25 @@ namespace Altairis.VtipBaze.WebCore
             ConfigureRoutes(config, applicationPath);
             ConfigureControls(config, applicationPath);
             ConfigureResources(config, applicationPath);
+
+            config.Styles.Register<Button>().AddClass("button");
+            config.Styles.Register<TextBox>().AddClass("textbox");
         }
 
         private void ConfigureRoutes(DotvvmConfiguration config, string applicationPath)
         {
             // register routes   
             config.RouteTable.Add("TagList", "tags", "Views/TagList.dothtml");
+            config.RouteTable.Add("NewJoke", "new", "Views/NewJoke.dothtml");
+
+            config.RouteTable.Add("HomePage", "{PageIndex:int}", "Views/HomePage.dothtml", new { PageIndex = 1 });
+            config.RouteTable.Add("SingleJoke", "joke/{JokeId}", "Views/HomePage.dothtml");
+            config.RouteTable.Add("TagSearch", "tags/{TagName}/{PageIndex:int}", "Views/HomePage.dothtml", new { PageIndex = 1 });
+            config.RouteTable.Add("AdminHomePage", "admin/{PageIndex:int}", "Views/HomePage.dothtml", new { PageIndex = 1 });
+
+            config.RouteTable.Add("Login", "login", "Views/Login.dothtml");
+
+            config.RouteTable.Add("Feed", "feed.xml", presenterType: typeof(FeedPresenter));
         }
 
         private void ConfigureControls(DotvvmConfiguration config, string applicationPath)
