@@ -59,6 +59,7 @@ namespace Altairis.VtipBaze.WebCore
         {
             options.AddDefaultTempStorages("temp");
             options.Services.AddScoped<VtipBazeContext>();
+            options.Services.AddScoped<FeedPresenter>();
         }
     }
 }
