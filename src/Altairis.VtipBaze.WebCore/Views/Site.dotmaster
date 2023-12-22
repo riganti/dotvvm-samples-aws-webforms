@@ -9,9 +9,10 @@
     <link rel="alternate" type="application/atom+xml" href="/feed.xml" />
     <meta name="author" content="Michal A. Valášek (www.rider.cz), Altairis (www.altairis.cz)" />
     <meta name="description" content="Ad-free database of jokes" />
-        
-    <dot:RequiredResource Name="site" />    
+
+    <dot:RequiredResource Name="site" />
     <dot:RequiredResource Name="site-css" />
+    <dot:RequiredResource Name="globalize" />
 </head>
 <body>
     <header>

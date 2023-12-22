@@ -1,0 +1,34 @@
+﻿@viewModel Altairis.VtipBaze.WebCore.ViewModels.NewJokeViewModel, Altairis.VtipBaze.WebCore
+@masterPage Views/Site.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainCPH">
+
+    <article>
+        <header>
+            Add your joke
+        </header>
+        
+        <form Visible="{value: !IsSubmitted}">
+            <p>
+                Here you can submit your own joke. It will appear on the site after it's approved by the editor.
+            </p>
+            <p>
+                <dot:TextBox Text="{value: JokeText}" Type="MultiLine" style-width="100%" style-height="200px" />
+            </p>
+            <dot:ValidationSummary />
+            <p>
+                <dot:Button Text="Submit" 
+                            Click="{command: Submit()}"
+                            IsSubmitButton="true"/>
+            </p>
+        </form>
+
+        <div Visible="{value: IsSubmitted}">
+            <p>
+                Your joke was added to the database. It will be published after it's approved by the editor. Thank you.
+            </p>
+        </div>
+    </article>
+
+</dot:Content>
+
