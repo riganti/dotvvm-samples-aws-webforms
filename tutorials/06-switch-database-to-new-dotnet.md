@@ -10,7 +10,7 @@ We need to deal with the last obstacle - the application uses the old ASP.NET Un
 
 > In this tutorial, we will migrate just 2 out of 3 projects. 
 >
-> After performing all the steps, the web application will be temporarily non-compilable as it still targets .NET Framework 4.8. We will finish this in the next tutorial.
+> After performing all the steps, the web application will be temporarily non-compilable as it still targets .NET Framework. We will finish this in the next tutorial.
 
 ## Migrating to Entity Framework Core and ASP.NET Core Identity
 
@@ -115,7 +115,7 @@ We need to deal with the last obstacle - the application uses the old ASP.NET Un
     +    {
     +        if (!optionsBuilder.IsConfigured)
     +        {
-    +            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS; Integrated Security=True; Initial Catalog=VtipBaze; MultipleActiveResultSets=True; Trust Server Certificate=true");
+    +            optionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS; Integrated Security=True; Initial Catalog=VtipBaze-old; MultipleActiveResultSets=True; Trust Server Certificate=true");
     +        }
     +        base.OnConfiguring(optionsBuilder);
     +    }
@@ -135,9 +135,15 @@ We need to deal with the last obstacle - the application uses the old ASP.NET Un
     }
     ```
 
+## Create the migrations
+
 1. Now, we want to create a migration to add the ASP.NET Core Identity tables in the database.
 
-    Open the **Package Manager Console** pane and run the following command:
+    Open the **Package Manager Console** pane and make sure the `Altairis.VtipBaze.Data` project is selected as the _Default project_.
+
+    ![Figure 06-06 Select the default project](figures/06-06.png)
+    
+    Then, run the following command:
 
     ```
     Add-Migration AspNetIdentityTables -Project Altairis.VtipBaze.Data -StartupProject Altairis.VtipBaze.Data

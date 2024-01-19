@@ -11,7 +11,7 @@ Everything is now ready to switch the web application to .NET 8.
     * `Properties/AssemblyInfo.cs` file
     * `App_Themes` folder
     * `Handlers/FeedHandler.cs` file
-    * `Handlers/TagList.cs` file
+    * `Handlers/TagListHandler.cs` file
     * `Pages` folder
     * `Scripts/WebForms` folder
     * `Scripts/_references.js` file
@@ -58,8 +58,8 @@ Everything is now ready to switch the web application to .NET 8.
             <Content Remove="compilerconfig.json" />
         </ItemGroup>
         <ItemGroup>
-            <PackageReference Include="DotVVM.Adapters.WebForms" Version="4.2.0" />
-            <PackageReference Include="DotVVM.AspNetCore" Version="4.2.0" />
+            <PackageReference Include="DotVVM.Adapters.WebForms" Version="4.2.4" />
+            <PackageReference Include="DotVVM.AspNetCore" Version="4.2.4" />
             <PackageReference Include="System.ServiceModel.Syndication" Version="8.0.0" />
         </ItemGroup>
         <ItemGroup>
@@ -69,6 +69,10 @@ Everything is now ready to switch the web application to .NET 8.
     ```
 
     > This project file references only the necessary NuGet packages and contains instructions to handle the DotVVM-related files.
+
+1. Right-click on the `Altairis.VtipBaze.WebCore` project and select **Reload project**.
+
+1. Set it again as the startup project.
 
 1. If you try to compile the project, there will still be several errors. 
 
@@ -84,6 +88,7 @@ Everything is now ready to switch the web application to .NET 8.
      ...
      using System.ComponentModel.DataAnnotations;
     -using System.Web.Security;
+    +using Microsoft.AspNetCore.Identity;
      
      namespace Altairis.VtipBaze.WebCore.ViewModels
      {
@@ -196,7 +201,7 @@ Everything is now ready to switch the web application to .NET 8.
                  {
                      // Published directly
     -                Context.RedirectToRouteHybrid("SingleJoke", new { JokeId = joke.JokeId });
-    +                Context.RedirectToRouteHybrid("SingleJoke", new { JokeId = joke.Entity.JokeId });
+    +                Context.RedirectToRoute("SingleJoke", new { JokeId = joke.Entity.JokeId });
                  }
                  else
                  {
@@ -395,7 +400,7 @@ Everything is now ready to switch the web application to .NET 8.
     ```json
     {
         "ConnectionStrings": {
-            "DB": "Data Source=.\\SQLEXPRESS; Integrated Security=True; Initial Catalog=VtipBaze; MultipleActiveResultSets=True; Trust Server Certificate=true"
+            "DB": "Data Source=.\\SQLEXPRESS; Integrated Security=True; Initial Catalog=VtipBaze-old; MultipleActiveResultSets=True; Trust Server Certificate=true"
         },
         "Smtp": {
             "DeliveryMethod": "SpecifiedPickupDirectory",
@@ -405,6 +410,8 @@ Everything is now ready to switch the web application to .NET 8.
     ```
 
     > Don't forget to update the connection string to point to your database.
+    >
+    > _Caution_: The `\` character in JSON needs to be escaped as `\\`.
 
 1. The last step is to create the `wwwroot` folder. The application won't start when the folder is not present.
 
@@ -419,6 +426,11 @@ This is because in the old ASP.NET app, the authorization rules were present in 
 1. Open the `ViewModels/HomePageViewModel.cs` and add there the following method:
 
     ```diff
+    +using DotVVM.Framework.Hosting;
+     ...
+
+     public class HomePageViewModel : SiteViewModel
+     {
          ...
      
          public HomePageViewModel(VtipBazeContext dbContext)
@@ -441,3 +453,15 @@ This is because in the old ASP.NET app, the authorization rules were present in 
 
          ...
     ```
+
+## Running the project
+
+Now, all compilation errors should be resolved, and the project is ready to run in .NET 8.
+
+### Troubleshooting
+
+* If you are getting error _obj\project.assets.json' not found_, open the web application directory and manually delete the `bin` and `obj` folders. Sometimes, old artifacts from the .NET Framework version prevent the new .NET SDK to generate the necessary files.
+
+* Visual Studio may ask you if you want to auto-generate HTTPS certificates for ASP.NET Core. If this happens, you can select _Yes_.
+
+* If the browser shows that the HTTPS certificate is not valid, it is because ASP.NET Core uses a different certificate than the IIS, and the browser has still the old certificate in the cache. Try deleting the browser cache, or wait a couple of minutes - it should repair automatically. Alternatively, you can try to run the application on a different port.

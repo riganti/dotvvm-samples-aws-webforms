@@ -4,15 +4,11 @@
 >
 > The `step01` shows how the project looks like **after** applying the following steps.
 
-## Installing DotVVM extension
+## Upgrade to .NET Framework 4.7.2
 
-1. Make sure you have installed the latest updates of **Visual Studio 2022**.
+DotVVM supports .NET Core 3.1, .NET 5 and higher, and the old .NET Framework 4.7.2 and newer.
 
-1. Install [DotVVM for Visual Studio 2022](https://www.dotvvm.com/get-dotvvm) extension by searching for `dotvvm` in the _Manage Extensions_ window. 
-
-1. Restart Visual Studio to install the extension.
-
-## Adding DotVVM package
+Unfortunately, the application still targets .NET Framework 4.5.1. We have to upgrade it to .NET Framework 4.7.2´or newer first.
 
 1. Upgrade all projects in the solution to **.NET Framework 4.7.2** or newer.
 
@@ -20,9 +16,11 @@
 
     ![Figure 02-02 Switch target framework](figures/02-02.png)
 
-    > Perform these steps for all three projects in the solution.
+    > Perform these steps for **all three projects** in the solution.
 
 1. Make sure the solution can be built without errors.
+
+## Add DotVVM in the project
 
 1. Right-click on the `Altairis.VtipBaze.WebCore` package and select **Add DotVVM**.
 
@@ -34,7 +32,7 @@
 
     ![Figure 02-05 Wait for the process to complete](figures/02-05.png)
 
-1. Finally, right-click the project and select **Manage NuGet Packages**. We will need to add the `DotVVM.Adapters.WebForms` package manually.
+1. Finally, right-click the project and select **Manage NuGet Packages**. We will need to add one optional NuGet package (`DotVVM.Adapters.WebForms`) manually. This package contains several helper components and methods which will simplify the migration.
 
     ![Figure 02-06 Opening the NuGet Package Manager](figures/02-06.png)
 
@@ -55,4 +53,12 @@
      }    
     ```
 
-> After this step, the application will still be using ASP.NET Web Forms, but you may use DotVVM pages in the project as well.
+    > After this step, the application will still be using ASP.NET Web Forms, but you may use DotVVM pages in the project as well.
+
+1. Make sure that `Altairis.VtipBaze.WebCore` is the startup project.
+
+1. Run the application by pressing F5 and make sure the application did not break.
+
+    > If you get _System.IO.FileLoadException_ (Could not load file or assembly XXX), it is probably caused by broken assembly redirects section.
+    > 
+    > Open the `Altairis.VtipBaze.WebCore\Web.config` file, delete the entire `<runtime>` section. Then open the _Error List_ window in Visual Studio and double-click on the warning which starts with "Found conflicts between different versions of the same dependent assembly." Visual Studio will regenerate the section with the correct assembly binding redirects.

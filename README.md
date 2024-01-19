@@ -13,6 +13,18 @@ The migration also shows how to:
 
 The original Web Forms application is called [VtipBaze](https://www.vtipbaze.cz) (database of jokes) and was made by [Michal Altair Valášek](https://www.altair.blog).
 
+## Tutorials
+
+You can follow the individual tutorials that will guide you through the entire migration procesS:
+
+* [01 - Run the .NET Framework version](tutorials/01-run-net-framework-version-locally.md)
+* [02 - Install DotVVM in the project](tutorials/02-install-dotvvm.md)
+* [03 - Migrate the master page](tutorials/03-migrate-master-page.md)
+* [04 - Migrate the first pages](tutorials/04-migrate-first-page.md)
+* [05 - Migrate remaining pages](tutorials/05-migrate-remaining-pages.md)
+* [06 - Switch database to the new .NET](tutorials/06-switch-database-to-new-dotnet.md)
+* [07 - Switch web app to the new .NET](tutorials/07-switch-web-app-to-new-dotnet.md)
+
 ## Resources
 
 1. Install the [DotVVM for Visual Studio](https://www.dotvvm.com/get-dotvvm) extension. _Make sure you have installed the latest updates of Visual Studio 2022 - the extension always supports only the latest stable version._

@@ -8,11 +8,13 @@
 
 Because the original application contains ASP.NET Web Forms Master page, it is a good idea to start by migrating the master page first.
 
-1. Right-click on the `Views` folder in the project and select **Add > New Item...**.
+1. Right-click on the `Views` folder in the project and select **Add > New Item...**. 
 
     ![Figure 03-01 Add new item in the Views folder](figures/03-01.png)
 
-1. Select **DotVVM Master Page** item and name it `Site.dotmaster`.
+1. Select **DotVVM Master Page** item and name it `Site.dotmaster`. 
+
+    > If you can see just a small window where you enter the file name, click on the _Show All Templates_ button to display the full experience.
 
     ![Figure 03-02 Select DotVVM Master Page and name it Site.dotmaster](figures/03-02.png)
 
@@ -21,6 +23,10 @@ Because the original application contains ASP.NET Web Forms Master page, it is a
     ![Figure 03-03 Confirm the window to create a viewmodel](figures/03-03.png)
 
 ## Converting ASP.NET Web Forms master page syntax to DotVVM
+
+In this section, we will take the original Web Forms pages from the `Pages` folder and we will create their equivalents in the `Views` and `ViewModels` folder using the DotVVM. 
+
+All pages in the `Pages` folder should remain unchanged - we will remove them in the later stages of the migration.
 
 1. Open the [ASPX to DotVVM converter](https://www.dotvvm.com/webforms/convert) and paste the source code of the `Altairis.VtipBaze.WebCore/Pages/Site.Master` in the text box.
 
@@ -191,6 +197,8 @@ Unfortunately, the converter is not able to perform all the changes. Some fixes 
 ## Adding a test page to make sure the master page works
 
 Now all our edits are finished. Let's start with adding the first page to make sure the master page works.
+
+1. Make sure the master page is saved. To be sure, press Ctrl-Alt-S. 
 
 1. Right-click on the `Views` folder and select **Add > New Item...**.
 

@@ -44,7 +44,7 @@
     public List<TagListModel> Tags { get; set; }
     ```
 
-1. We also need to declare the `TagListModel` class. Add a folder called `Model` in the project, and place this code in the `Model/TagListViewModel.cs` file:
+1. We also need to declare the `TagListModel` class. Add a folder called `Model` in the project, and create the `Model/TagListModel.cs` file:
 
     ```csharp
     namespace Altairis.VtipBaze.WebCore.Model
@@ -57,7 +57,13 @@
     }
     ```
 
-1. Then change the `<dot:Repeater>` to bind to this collection. We can also merge it with its parent element.
+1. Add the missing `using` directive in the `ViewModels/TagListViewModel.cs`:
+
+    ```csharp
+    using Altairis.VtipBaze.WebCore.Model;
+    ```
+
+1. Then change the `<dot:Repeater>` in `Views/TagList.dothtml` to bind to this collection. We can also merge it with its parent element.
 
     ```diff
     -<ul class="taglist">
@@ -79,10 +85,10 @@
     +                          Text="{value: TagName}" />
     ```
 
-1. The remaining binding expression needs to be changed manually too:
+1. The remaining binding expression can be changed and simplified to:
 
     ```diff
-    -<%# string.Format("({0})",  Item.Jokes.Count) %>
+    -{{value: string.Format("({0})", Jokes.Count)}}
     +{{value: $"({JokesCount})"}}
     ```
 
